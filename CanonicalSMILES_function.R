@@ -5,7 +5,8 @@ library(data.table)
 
 
 Canonical_SMILES <- function(To_idenfier, Archivos_acumulados) { 
-  
+  # To_idenfier <- MMP12
+  # Archivos_acumulados <- Lista_vacia
     for (i in 1:length(To_idenfier)){
     id <- To_idenfier[i]
     url_chem <- paste0("https://pubchem.ncbi.nlm.nih.gov/rest/pug_view/data/compound/", id, "/json")
@@ -86,19 +87,20 @@ Canonical_SMILES <- function(To_idenfier, Archivos_acumulados) {
     vector_select <- list()
     for (i in 1:length(Archivos_acumulados)){
       if (ncol(data.frame(Archivos_acumulados[i]))!=2){
-        vector_select[i] <- 0
-      } else {
+        print(Archivos_acumulados[i])
         vector_select[i] <- 1
+      } else {
+        vector_select[i] <- 0
       }
     }
     
     vector_select_1 <- as.logical(unlist(vector_select))
-    print(vector_select_1)
+    # print(vector_select_1)
     CID <- To_idenfier[vector_select_1]
     print(CID)
     Pum1 <- Archivos_acumulados[vector_select_1]
     Pum2 <- data.frame(unlist(Pum1))
-    SMILES <- data.frame(Pum2[c(F,T),])
+    SMILES <- data.frame(Pum2[c(F,F,T),])
     print(SMILES)
     colnames(SMILES) <- "SMILES"
     smiles_ids <- data.frame(CID, SMILES)
